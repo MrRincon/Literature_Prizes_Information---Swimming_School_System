@@ -1,25 +1,48 @@
 package task1;
 
+import java.util.ArrayList;
+
 public class Laureate {
     private String name;
-    private String birth_death;
-    private String nations;
-    private String languages;
-    private String genres;
+    private ArrayList<String> birth_death;
+    private ArrayList<String> nations;
+    private ArrayList<String> languages;
     private String citation;
-
-    public Laureate(String name, String birth_death, String nations, String languages, String genres, String citation) {
+    private ArrayList<String> genres;
+    public Laureate(String name, ArrayList<String> birth_death, ArrayList<String> nations, ArrayList<String> languages, String citation, ArrayList<String> genres) {
         this.name = name;
         this.birth_death = birth_death;
         this.nations = nations;
         this.languages = languages;
-        this.genres = genres;
         this.citation = citation;
+        this.genres = genres;
+    } 
+    public String toString(){
+        return this.name + "\n" + this.birth_death + "\n" + this.nations + "\n" + this.languages + "\n" + this.citation + "\n" + this.genres;
     }
 
-    @Override
-    public String toString() {
-        return "Laureate{" + "name=" + name + ", birth_death=" + birth_death + ", nations=" + nations + ", languages=" + languages + ", genres=" + genres + ", citation=" + citation + '}';
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<String> getBirth_death() {
+        return birth_death;
+    }
+
+    public ArrayList<String> getNations() {
+        return nations;
+    }
+
+    public ArrayList<String> getLanguages() {
+        return languages;
+    }
+
+    public String getCitation() {
+        return citation;
+    }
+
+    public ArrayList<String> getGenres() {
+        return genres;
     }
     
 }
