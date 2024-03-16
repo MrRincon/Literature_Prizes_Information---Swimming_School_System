@@ -3,20 +3,23 @@ package task1.data;
 import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
+import java.util.ArrayList;
+import task1.Laureate;
+import task1.LiteraturePrize;
 
 public class DataLoader {
-//    static variable referring to the single created instance of DataLoader
+    
+    //Static variable referring to the single created instance of DataLoader
     private static DataLoader instance;
     private final String filePath = System.getProperty("user.dir");
     private final String ipFile = filePath + File.separator + "literature-prizes.txt";
-    
-//    privatize constructor to disallow creation of other object instances of DataLoader outside of this class
-    private DataLoader(){        
+    private ArrayList<LiteraturePrize> allYears;
+    //Privatize constructor to disallow creation of other object instances of DataLoader outside of this class
+    private DataLoader(){
+        this.allYears = new ArrayList<>();
     }
     
-//    returns a new DataLoader if one does not exist and the previously created object if it does exist
+    //Returns a new DataLoader if one does not exist and the previously created object if it does exist
     public static DataLoader getLoaderInstance(){
         if(instance != null){
             return instance;
@@ -34,77 +37,41 @@ public class DataLoader {
             while(scanner.hasNext()){ 
                 String block = scanner.next();
                 DataParser parseData = new DataParser(block);
-                System.out.println("----------------");
-                //Create LiteraturePrize Obj with the Year only if it doesn't exist already
-                System.out.println(parseData.extractYear()); 
-                System.out.println(parseData.checkIfAwarded());
+                ArrayList<Laureate> awardedTo = new ArrayList<>();
                 //Check if on that year anything has been awarded, if not, do nothing
                 if(parseData.checkIfAwarded()){
                     //Extract the data from the current data block and create Laureate Obj
-                    System.out.println(parseData.extractName());
-                    System.out.println(parseData.extractBirthDeath());
-////                    System.out.println(parseData.extractCountry());
-////                    System.out.println(parseData.extractLanguage());
-////                    System.out.println(parseData.extractCitation());
-////                    System.out.println(parseData.extractGenres());
-////                    //Add Laureate Obj into the LiteraturePrize Obj a rray
+                    for(int i = 0; i<(parseData.extractName().size()); i++){
+                        Laureate laureate = new Laureate(
+                                parseData.extractName().get(i),
+                                parseData.extractBirthDeath().get(i),
+                                parseData.extractCountry().get(i),
+                                parseData.extractLanguage().get(i),
+                                parseData.extractCitation().get(i),
+                                parseData.extractGenres().get(i)
+                        );
+                        awardedTo.add(laureate);
+                    }
+                    LiteraturePrize NewPrize = new LiteraturePrize(
+                            parseData.extractYear(),
+                            awardedTo
+                    );
+                    //Add Laureate Obj into the LiteraturePrize Obj array
+                    this.allYears.add(NewPrize);
+                } else {
+                    LiteraturePrize NewPrize = new LiteraturePrize(
+                            parseData.extractYear(),
+                            awardedTo
+                    );
+                    this.allYears.add(NewPrize);
                 }
             }
             scanner.close();
         } catch (FileNotFoundException e){
             e.printStackTrace();
-        }  
+        }
+    }
+    public ArrayList<LiteraturePrize> getYearObj(){
+        return this.allYears;
     }
 }
-//public class DataLoader {
-//    private final String filePath = System.getProperty("user.dir");
-//    private final String ipFile = filePath + File.separator + "literature-prizes.txt";
-//    private final ArrayList<String> dataBlocks = new ArrayList<>();
-//    public ArrayList<String> readLines() {
-//        try {
-//            File file = new File(ipFile);
-//            Scanner scanner = new Scanner(file);
-//            scanner.useDelimiter("-----");
-//            while(scanner.hasNext()){ 
-//                String block = scanner.next();
-//                dataBlocks.add(block);
-//                DataParser parseData = new DataParser(block);
-//                System.out.println(parseData.getBlockData()); 
-//                System.out.println(parseData.extractYear());
-//
-//            }
-//            scanner.close();
-//        } catch (FileNotFoundException e){
-//            e.printStackTrace();
-//        }
-//        return (dataBlocks);
-//    }
-//}
-    
-//    public DataLoader(){
-//        theData = new String[1000];
-//        the readLines();
-//    }
-//    public String[] getTheData(){
-//        return theData;
-//    }
-//    private void loadFromFile(){
-//        
-////        String awardedRegexPattern = "(\\d{4})\\s*(.+?)\\((\\d{4}-\\d{4})\\)\\|(.*?)\\|(.*?)\\s*\"(.*?)\"\\s*(.*?)\\s*-----";
-////        String notAwardedRegexPattern = "(\\d{4}\\Not awarded\\s*-----";
-//        File fileObj = new File(ipFile);
-//        Scanner sc = null;
-//        try {
-//            sc = new Scanner(fileObj);
-//            int index = 0;
-//            while (sc.hasNext()){
-//                theData[index]= sc.nextLine().trim();
-//                index++;
-//            }
-//        } catch (FileNotFoundException fnf){
-//            System.out.println("File not found ");
-//            System.exit(0);
-//        }
-//    }
-    
-
