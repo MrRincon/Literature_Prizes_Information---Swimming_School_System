@@ -7,8 +7,8 @@ public class ProgrammeManager {
     public void start(){
         DataLoader loadFile = DataLoader.getLoaderInstance();
         loadFile.readLines();
-        for(int i = 0; i<loadFile.getYearObj().size();i++){
-            System.out.println((loadFile.getYearObj().get(i)).getYear());
+        for(int i = 0; i<loadFile.getYearObjs().size();i++){
+            System.out.println((loadFile.getYearObjs().get(i)).getYear());
         }
         LoadMenu menu = LoadMenu.getLoaderInstance();
         menu.mainMenu();
@@ -16,14 +16,15 @@ public class ProgrammeManager {
         int choice = -1;
         while(choice != 0){
             try{
-                System.out.println("Enter choice > ");
+                System.out.print("Enter choice > ");
                 choice = Integer.parseInt(scanner.nextLine());
-                if(!menu.processChoice(choice)){
+                if(!menu.processChoice(choice, loadFile.getYearObjs())){
                     System.out.println("Invalid choice. Please enter a valid option.");
                 }
             } catch (NumberFormatException e){
-                System.out.println("Invalid input. Please enter a number.(No spaces or special characters");
+                System.out.println("Invalid input. Please enter a number.(No spaces or special characters)");
             }
+            menu.mainMenu();
         }
         scanner.close();
     }
