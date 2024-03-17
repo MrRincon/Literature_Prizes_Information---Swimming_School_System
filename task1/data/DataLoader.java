@@ -13,7 +13,7 @@ public class DataLoader {
     private static DataLoader instance;
     private final String filePath = System.getProperty("user.dir");
     private final String ipFile = filePath + File.separator + "literature-prizes.txt";
-    private ArrayList<LiteraturePrize> allYears;
+    private final ArrayList<LiteraturePrize> allYears;
     //Privatize constructor to disallow creation of other object instances of DataLoader outside of this class
     private DataLoader(){
         this.allYears = new ArrayList<>();
@@ -68,10 +68,10 @@ public class DataLoader {
             }
             scanner.close();
         } catch (FileNotFoundException e){
-            e.printStackTrace();
+            System.out.println("File not found");
         }
     }
-    public ArrayList<LiteraturePrize> getYearObj(){
+    public ArrayList<LiteraturePrize> getYearObjs(){
         return this.allYears;
     }
 }

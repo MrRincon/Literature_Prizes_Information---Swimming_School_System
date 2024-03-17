@@ -16,15 +16,20 @@ public class DataParser {
     public DataParser(String block) {
         this.dBlock = block;
     }
-    public String extractYear(){
+    public int extractYear(){
         Scanner scanner = new Scanner(this.dBlock);
-        String yearToExtract = "";
+        int yearToExtract = 0;
         while(scanner.hasNextLine()){
             String line = scanner.nextLine();
             Pattern yearPattern = Pattern.compile(this.yearRegex);
             Matcher yearMatcher = yearPattern.matcher(line); 
             if(yearMatcher.matches()){
-                yearToExtract = line;
+                Pattern onlyYearPattern = Pattern.compile("\\d{4}");
+                Matcher onlyYearMatcher = onlyYearPattern.matcher(line);
+                if(onlyYearMatcher.find()){
+                    String number = onlyYearMatcher.group(0);
+                    yearToExtract = Integer.parseInt(number);
+                }
             }
         }
         scanner.close();
