@@ -1,178 +1,189 @@
+//Student ID: M00774667
 package task1.data;
 
+//Import any essential packages to use in this class
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class DataParser {
-    private String dBlock;
-    private boolean awarded = true;
-    private String yearRegex = "\\d{4}\\s*";
-    private String notAwardedRegex = "Not awarded\\s*";
-    private String secondLineRegex = "(.*?)\\s*(?:\\((b\\.\\s*(\\d{4}))\\)|\\((\\d{4}-\\d{4})\\)|\\((\\d{4}-\\d{3})\\))\\|([^\n]+)\\|([^\n]+)\\s*";
-    private String citationLineRegex = "\"(.*?)\"";
-    private String genresLineRegex = "^[a-zA-Z ,]+$";
-    public DataParser(String block) {
+
+    private String dBlock;//Data block to parse
+    private boolean awarded = true;//Boolean to check if the prize was awarded
+    private String yearRegex = "\\d{4}\\s*";//Regex to check the year
+    private String notAwardedRegex = "Not awarded\\s*";//Regex to check if the second line says "Not awarded"
+    private String secondLineRegex = "(.*?)\\s*(?:\\((b\\.\\s*(\\d{4}))\\)|\\((\\d{4}-\\d{4})\\)|\\((\\d{4}-\\d{3})\\))\\|([^\n]+)\\|([^\n]+)\\s*";//Regex for the second line of the block and splitted into groups
+    private String citationLineRegex = "\"(.*?)\"";//Regex to match the third line
+    private String genresLineRegex = "^[a-zA-Z ,]+$";//Regex to match the fourth line
+
+    public DataParser(String block) {//Create a constructor
         this.dBlock = block;
     }
-    public int extractYear(){
+
+    //Extract the year from the first line
+    public int extractYear() {
         Scanner scanner = new Scanner(this.dBlock);
         int yearToExtract = 0;
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Pattern yearPattern = Pattern.compile(this.yearRegex);
-            Matcher yearMatcher = yearPattern.matcher(line); 
-            if(yearMatcher.matches()){
+            Matcher yearMatcher = yearPattern.matcher(line); //Match the line including spaces
+            if (yearMatcher.matches()) {
                 Pattern onlyYearPattern = Pattern.compile("\\d{4}");
-                Matcher onlyYearMatcher = onlyYearPattern.matcher(line);
-                if(onlyYearMatcher.find()){
+                Matcher onlyYearMatcher = onlyYearPattern.matcher(line);//Match only the numbers of the line
+                if (onlyYearMatcher.find()) {
                     String number = onlyYearMatcher.group(0);
-                    yearToExtract = Integer.parseInt(number);
+                    yearToExtract = Integer.parseInt(number);//Extract the numbers as integers and return them
                 }
             }
         }
         scanner.close();
         return yearToExtract;
     }
-    public boolean checkIfAwarded(){
+
+    //Check the second line of the block to see if is not awarded
+    public boolean checkIfAwarded() {
         Scanner scanner = new Scanner(this.dBlock);
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Pattern notAwardedPattern = Pattern.compile(this.notAwardedRegex);
             Matcher notAwardedMatcher = notAwardedPattern.matcher(line);
-            if(notAwardedMatcher.matches()){
-                this.awarded = false;
+            if (notAwardedMatcher.matches()) {
+                this.awarded = false;//if second line matches, return false
             }
         }
         scanner.close();
         return this.awarded;
     }
-    public ArrayList<String> extractName(){
+
+    //Extract all the names of the people awarded for the year in the block
+    public ArrayList<String> extractName() {
         Scanner scanner = new Scanner(this.dBlock);
-        ArrayList<String> namesToExtract = new ArrayList<>();
-        while(scanner.hasNextLine()){
+        ArrayList<String> namesToExtract = new ArrayList<>();//Create an array to return all the names  
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Pattern secondLinePattern = Pattern.compile(this.secondLineRegex);
             Matcher secondLineMatcher = secondLinePattern.matcher(line);
-            if(secondLineMatcher.find()){
-                //Get matching line and use the group with the name only
+            if (secondLineMatcher.find()) {//Match the second line, find, extract and return the group for the name in an ArrayList
                 namesToExtract.add(secondLineMatcher.group(1));
             }
         }
         scanner.close();
-        //return the name group
         return namesToExtract;
     }
-    public ArrayList<ArrayList<String>> extractBirthDeath(){
-       Scanner scanner = new Scanner(this.dBlock);
+
+    //Extract the all the years of birth and possible years of death
+    public ArrayList<ArrayList<String>> extractBirthDeath() {
+        Scanner scanner = new Scanner(this.dBlock);
         ArrayList<ArrayList<String>> doBdoDToExtract = new ArrayList<>();
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Pattern secondLinePattern = Pattern.compile(this.secondLineRegex);
             Matcher secondLineMatcher = secondLinePattern.matcher(line);
-            if(secondLineMatcher.find()){
-                //Get whole line and add only the DoB/DoD group that is not null to an ArrayList
-                if (secondLineMatcher.group(3) != null){
+            if (secondLineMatcher.find()) {
+                if (secondLineMatcher.group(3) != null) {//if group 3 matches
                     ArrayList<String> dobArrayL = new ArrayList<>();
-                    dobArrayL.add(secondLineMatcher.group(3));
+                    dobArrayL.add(secondLineMatcher.group(3));//Store year of birth
                     dobArrayL.add("----");
                     doBdoDToExtract.add(dobArrayL);
-                } else if (secondLineMatcher.group(4) != null){
-                    String[] dates = secondLineMatcher.group(4).split("-");
+                } else if (secondLineMatcher.group(4) != null) {//if group 4 matches
+                    String[] dates = secondLineMatcher.group(4).split("-");//Split and store year of birth and year of death
                     ArrayList<String> dobdodArrayL = new ArrayList<>();
-                    for (String date : dates){
+                    for (String date : dates) {
                         dobdodArrayL.add(date);
                     }
                     doBdoDToExtract.add(dobdodArrayL);
-                } else if (secondLineMatcher.group(5) != null){
-                    String[] dates = secondLineMatcher.group(5).split("-");
+                } else if (secondLineMatcher.group(5) != null) {//if group 5 matches
+                    String[] dates = secondLineMatcher.group(5).split("-");//Split and store year of birth and year of death
                     ArrayList<String> dobdodArrayL = new ArrayList<>();
-                    for (String date : dates){
+                    for (String date : dates) {
                         dobdodArrayL.add(date);
                     }
                     doBdoDToExtract.add(dobdodArrayL);
                 }
-            }   
+            }
         }
         scanner.close();
-        //return the DoB or DoB-DoD group
-        return doBdoDToExtract; 
+        return doBdoDToExtract; //return all the ArrayLists of DoB or DoB-DoD 
     }
-    public ArrayList<ArrayList<String>> extractCountry(){
+
+    //Extract all the countries
+    public ArrayList<ArrayList<String>> extractCountry() {
         Scanner scanner = new Scanner(this.dBlock);
         ArrayList<ArrayList<String>> countriesToExtract = new ArrayList<>();
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Pattern secondLinePattern = Pattern.compile(this.secondLineRegex);
             Matcher secondLineMatcher = secondLinePattern.matcher(line);
-            if(secondLineMatcher.find()){
-                String[] countries = secondLineMatcher.group(6).split(",");
+            if (secondLineMatcher.find()) {
+                String[] countries = secondLineMatcher.group(6).split(",");//Split and store all the countries 
                 ArrayList<String> countriesArrayL = new ArrayList<>();
-                for (String country : countries){
+                for (String country : countries) {
                     countriesArrayL.add(country);
                 }
-                //Get whole line and add only the countries group to an ArrayList
                 countriesToExtract.add(countriesArrayL);
             }
         }
         scanner.close();
-        //return the countries ArrayList
-        return countriesToExtract;
+        return countriesToExtract;//return all the ArrayLists of the countries
     }
-    public ArrayList<ArrayList<String>> extractLanguage(){
+
+    //Extract all the languages
+    public ArrayList<ArrayList<String>> extractLanguage() {
         Scanner scanner = new Scanner(this.dBlock);
         ArrayList<ArrayList<String>> languagesToExtract = new ArrayList<>();
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Pattern secondLinePattern = Pattern.compile(this.secondLineRegex);
             Matcher secondLineMatcher = secondLinePattern.matcher(line);
-            if(secondLineMatcher.find()){
-                String[] languages = secondLineMatcher.group(7).split(",");
+            if (secondLineMatcher.find()) {
+                String[] languages = secondLineMatcher.group(7).split(",");//Split and store all the languages
                 ArrayList<String> languagesArrayL = new ArrayList<>();
-                for (String language : languages){
+                for (String language : languages) {
                     languagesArrayL.add(language);
                 }
                 languagesToExtract.add(languagesArrayL);
             }
         }
         scanner.close();
-        //return the languages ArrayList
-        return languagesToExtract;
+        return languagesToExtract;//return all the ArrayLists of the languages
     }
-    public ArrayList<String> extractCitation(){
+
+    //Extract all the citations
+    public ArrayList<String> extractCitation() {
         Scanner scanner = new Scanner(this.dBlock);
         ArrayList<String> citationToExtract = new ArrayList<>();
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Pattern citationLinePattern = Pattern.compile(this.citationLineRegex);
             Matcher citationLineMatcher = citationLinePattern.matcher(line);
-            if(citationLineMatcher.matches()){
-                citationToExtract.add(line);
+            if (citationLineMatcher.matches()) {
+                citationToExtract.add(line);//Match the citation line
             }
         }
         scanner.close();
-        //return the citation line
-        return citationToExtract;
+        return citationToExtract;//Return all the citations
     }
-    public ArrayList<ArrayList<String>> extractGenres(){
+
+    //Extract all the genres
+    public ArrayList<ArrayList<String>> extractGenres() {
         Scanner scanner = new Scanner(this.dBlock);
         ArrayList<ArrayList<String>> genresToExtract = new ArrayList<>();
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Pattern genresLinePattern = Pattern.compile(this.genresLineRegex);
             Matcher genresLineMatcher = genresLinePattern.matcher(line);
-            if(genresLineMatcher.matches()){
-                String[] genres = line.split(",");
+            if (genresLineMatcher.matches()) {
+                String[] genres = line.split(",");//Spli and store al the genres
                 ArrayList<String> genresArrayL = new ArrayList<>();
-                for (String genre : genres){
+                for (String genre : genres) {
                     genresArrayL.add(genre);
                 }
-                genresToExtract.add(genresArrayL);   
+                genresToExtract.add(genresArrayL);
             }
         }
         scanner.close();
-        //return the genres line
-        return genresToExtract;
+        return genresToExtract;//Return all the ArrayLists of genres
     }
 }
