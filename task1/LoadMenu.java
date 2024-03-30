@@ -5,6 +5,7 @@ package task1;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class LoadMenu {
 
@@ -128,9 +129,9 @@ public class LoadMenu {
                                 System.out.printf("| %-23s| %-6s| %-6s| %-21s| %-21s|%n", "Winner(s)", "Born", "Died", "Language(s)", "Genre(s)");
                                 System.out.printf("----------------------------------------------------------------------------------------\n");
                                 //Display the information for each laureate that was awarded
-                                for (Laureate laureate : prize.getLaureates()) {
+                                prize.getLaureates().forEach(laureate -> {
                                     System.out.print(laureate.toString());
-                                }
+                                });
                             } else {
                                 System.out.println("Prize had no winner(s) this year");
                             }
@@ -159,6 +160,7 @@ public class LoadMenu {
         System.out.printf("| %-30s | %-80s | %-4s |%n", "Name", "Genres", "Year");
         System.out.printf("----------------------------------------------------------------------------------------------------------------------------\n");
         boolean noMatchesFound = true;
+        TreeSet<String> ts = new TreeSet();
         //Loop through all the literature prizes obj and the Laureates for each prize
         for (LiteraturePrize prize : allYearObjs) {
             for (Laureate laureate : prize.getLaureates()) {
@@ -179,10 +181,13 @@ public class LoadMenu {
                     noMatchesFound = false;
                     matchedGenres.setLength(matchedGenres.length() - 1); // Remove comma
                     //Display laureate's name, genres, and the year of the prize
-                    System.out.printf("| %-30s | %-80s | %-4d |%n", laureate.getName(), matchedGenres.toString(), prize.getYear());
+                    ts.add(String.format("| %-30s | %-80s | %-4d |%n", laureate.getName(), matchedGenres.toString(), prize.getYear()));
                 }
             }
         }
+        ts.forEach(item -> {
+            System.out.print(item);
+        });
         if (noMatchesFound) {
             System.out.printf("| %-120s |%n", "No winners found matching the genre search.");
         }
