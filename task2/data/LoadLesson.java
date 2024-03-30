@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import task2.Enums.DOWEnum;
 import task2.Enums.LEnum;
 import task2.Enums.STEnum;
+import task2.Instructor;
 import task2.SwimLesson;
 
 public class LoadLesson {
@@ -25,22 +26,25 @@ public class LoadLesson {
         }
     }
 
-    public void createDummy() {
+    public void createDummy(LoadInstructor instructors) {
         DOWEnum[] dow = {DOWEnum.MONDAY, DOWEnum.WEDNESDAY, DOWEnum.FRIDAY};
-        STEnum[] startTimes = {STEnum.T1700, STEnum.T1730, STEnum.T1800, STEnum.T1830, STEnum.T1900, STEnum.T1930};
         LEnum[] levels = {LEnum.NOVICE, LEnum.IMPROVER, LEnum.ADVANCE};
+        STEnum[] startTimes = {STEnum.T1700, STEnum.T1730, STEnum.T1800, STEnum.T1830, STEnum.T1900, STEnum.T1930};
         LocalDate currentd = LocalDate.now();
-        LocalDate endWeekOfDate = LocalDate.of(2024, 12, 23);
+        LocalDate endWeekOfDate = currentd.plusDays(30);
         while (currentd.isBefore(endWeekOfDate) || currentd.isEqual(endWeekOfDate)) {
             for (DOWEnum dowI : dow) {
-                for (STEnum stI : startTimes) {
-                    for (LEnum lI : levels) {
-                        SwimLesson sl = new SwimLesson(dowI, stI, lI, currentd);
+                for (LEnum lI : levels) {
+                    Instructor instObj = instructors.selectRandomInstructor();
+                    for (STEnum stI : startTimes) {
+                        //Add the instructor to this constructor
+                        SwimLesson sl = new SwimLesson(dowI, stI, lI, currentd, instObj);
+                        instObj.setSchedule(sl);
                         allLessons.add(sl);
                     }
                 }
             }
-            currentd = currentd.plusDays(1); // Move to the next day
+            currentd = currentd.plusDays(7); // Move to the next 7 days
         }
     }
 

@@ -14,13 +14,16 @@ public class SwimLesson {
     private LEnum level;
     private int maxStudents;
     private LocalDate date;
+    private Instructor instructorAssigned;
 
-    public SwimLesson(DOWEnum dow, STEnum t, LEnum l, LocalDate d) {
+    public SwimLesson(DOWEnum dow, STEnum t, LEnum l, LocalDate d, Instructor i) {
         this.day = dow;
         this.start_time = t;
         this.level = l;
         this.maxStudents = 4;
         this.date = lessonDate(d, dow);
+        this.instructorAssigned = i;
+        
     }
 
     public LocalDate lessonDate(LocalDate d, DOWEnum dow) {
@@ -56,10 +59,12 @@ public class SwimLesson {
     public void setMaxStudents(int maxStudents) {
         this.maxStudents = maxStudents;
     }
-
+    public void setInstructor(){
+        
+    }
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("| %-10s| %-11s| %-6s| %-10s| %-2d|%n", day, date, start_time, level, maxStudents));
+        sb.append(String.format("| %-10s| %-11s| %-6s| %-10s| %-2d| %-20s|%n", day, date, start_time, level, maxStudents, instructorAssigned.getName()));
         return sb.toString();
     }
 }

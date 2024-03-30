@@ -2,18 +2,29 @@
 package task2;
 
 import java.util.Scanner;
+import task2.data.LoadInstructor;
 import task2.data.LoadLesson;
+import task2.data.LoadStudent;
 
 public class ProgrammeManager {
-    public void start(){
-        WaitingList wl = WaitingList.getLoaderInstance(); 
-        
+
+    public void start() {
+        WaitingList wl = WaitingList.getLoaderInstance();
+        LoadInstructor instructorD = LoadInstructor.getLoaderInstance();
+        instructorD.createDummy();
         LoadLesson lessonD = LoadLesson.getLoaderInstance();
-        lessonD.createDummy();
-//        lessonD.getLessons().forEach(lesson -> {
-//            System.out.println(lesson);
-//        });
-//        LoadInstructor instructorD = LoadInstructor.getLoaderInstance();
+        lessonD.createDummy(instructorD);
+        LoadStudent studentD = LoadStudent.getLoaderInstance();
+        studentD.createDummy();
+        lessonD.getLessons().forEach(lesson -> {
+            System.out.print(lesson);
+        });
+        instructorD.getInstructors().forEach(instructor -> {
+            System.out.print(instructor);  
+        });
+        
+        
+
         Menu menu = Menu.getLoaderInstance();
         menu.mainMenu();
         Scanner scanner = new Scanner(System.in);
@@ -26,22 +37,20 @@ public class ProgrammeManager {
                 if (!processChoice(choice)) {
                     System.out.println("Invalid choice. Please enter a valid option.");
                 } else {
-                    switch (choice){
+                    System.out.println(choice);
+                    switch (choice) {
                         case 1:
-//                          menu.
+//                          menu.whateverfunction
                         case 2:
-//                            
+//                          
                         case 3:
-//                            
+//                          
                         case 4:
 //                            
                         case 5:
 //                            
                         case 6:
 //                            
-                        case 0:
-                            System.out.println("Exiting...");
-                            System.exit(0);
                     }
                 }
             } catch (NumberFormatException e) {
@@ -51,9 +60,10 @@ public class ProgrammeManager {
         }
         scanner.close();
     }
+
     public boolean processChoice(int choice) {
         switch (choice) {
-            case 1: 
+            case 1:
                 return true;
             case 2:
                 return true;
@@ -66,7 +76,8 @@ public class ProgrammeManager {
             case 6:
                 return true;
             case 0:
-                return true;
+                System.out.println("Exiting...");
+                System.exit(0);
             default:
                 return false;
         }
