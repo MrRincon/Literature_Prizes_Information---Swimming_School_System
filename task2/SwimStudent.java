@@ -9,14 +9,57 @@ public class SwimStudent {
     private LEnum level;
     private boolean waitingList;
     private SwimLesson upcomingLesson;
-    private ArrayList<Qualification> qualifications;
+    private ArrayList<DistanceSwim> achievements;
+    private PersonalSurvival psQualification;
     
-    public SwimStudent(String name){
-        this.name = name;
-        this.level = null;
+    public SwimStudent(String n, LEnum l){
+        this.name = n;
+        this.level = l;
         this.waitingList = true;
         this.upcomingLesson = null;
-        this.qualifications = null;
+        this.achievements = new ArrayList<>();
+        this.psQualification = null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LEnum getLevel() {
+        return level;
+    }
+
+    public boolean isWaitingList() {
+        return waitingList;
+    }
+
+    public SwimLesson getUpcomingLesson() {
+        return upcomingLesson;
+    }
+
+    public ArrayList<DistanceSwim> getDistanceSwim() {
+        return achievements;
+    }
+
+    public void setLevel(LEnum level) {
+        this.level = level;
+    }
+
+    public void setWaitingList(boolean waitingList) {
+        this.waitingList = waitingList;
+    }
+
+    public void setUpcomingLesson(SwimLesson upcomingLesson) {
+        this.upcomingLesson = upcomingLesson;
+    }
+
+    public void addDistanceSwim(DistanceSwim ds) {
+        this.achievements.add(ds);
+    }
+
+    @Override
+    public String toString() {
+        return "SwimStudent{" + "name=" + name + ", level=" + level + ", waitingList=" + waitingList + ", upcomingLesson=" + upcomingLesson + ", qualifications=" + achievements + '}';
     }
     
 }

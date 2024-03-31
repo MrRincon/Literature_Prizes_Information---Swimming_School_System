@@ -2,6 +2,7 @@
 package task2;
 
 import java.util.Scanner;
+import task2.Enums.LEnum;
 import task2.data.LoadInstructor;
 import task2.data.LoadLesson;
 import task2.data.LoadStudent;
@@ -15,16 +16,15 @@ public class ProgrammeManager {
         LoadLesson lessonD = LoadLesson.getLoaderInstance();
         lessonD.createDummy(instructorD);
         LoadStudent studentD = LoadStudent.getLoaderInstance();
-        studentD.createDummy();
+        studentD.createDummy(instructorD);
+        
         lessonD.getLessons().forEach(lesson -> {
             System.out.print(lesson);
         });
-        instructorD.getInstructors().forEach(instructor -> {
-            System.out.print(instructor);  
-        });
-        
-        
-
+//        studentD.getStudents().forEach((SwimStudent student) -> { 
+//            System.out.println(student);
+//        });
+                
         Menu menu = Menu.getLoaderInstance();
         menu.mainMenu();
         Scanner scanner = new Scanner(System.in);

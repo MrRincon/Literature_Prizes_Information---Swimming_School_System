@@ -4,4 +4,8 @@ package task2;
 
 public class PersonalSurvival extends Qualification {
     
+    public PersonalSurvival(Instructor i) {
+        super(i);
+    }
+    
 }

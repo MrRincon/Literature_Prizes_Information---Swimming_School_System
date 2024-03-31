@@ -1,6 +1,13 @@
 
 package task2;
 
-public class Qualification {
+abstract class Qualification {
+    public Instructor instructor;
     
+    Qualification(Instructor i){
+        this.instructor = i;
+    }
+    public Instructor getInstructor(){
+        return this.instructor;
+    }
 }

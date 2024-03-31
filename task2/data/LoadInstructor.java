@@ -35,6 +35,11 @@ public class LoadInstructor {
     public ArrayList<Instructor> getInstructors() {
         return this.allInstructors;
     }
+    public Instructor selectRandom(){
+        Random r = new Random();
+        int index = r.nextInt(allInstructors.size());
+        return allInstructors.get(index);
+    }
     public Instructor selectRandomInstructor(){
         Random random = new Random();
         Instructor selectedInstructor;
@@ -45,7 +50,7 @@ public class LoadInstructor {
 
         recentlySelected.add(selectedInstructor);
 
-        if (recentlySelected.size() > 3) {
+        if (recentlySelected.size() > 2) {
             recentlySelected.clear();
         }
         return selectedInstructor;
