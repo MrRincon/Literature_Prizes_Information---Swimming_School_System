@@ -1,8 +1,7 @@
-   //Student ID: M00774667
+//Student ID: M00774667
 package task2;
 
 import java.util.Scanner;
-import task2.Enums.LEnum;
 import task2.data.LoadInstructor;
 import task2.data.LoadLesson;
 import task2.data.LoadStudent;
@@ -18,9 +17,9 @@ public class ProgrammeManager {
         LoadStudent studentD = LoadStudent.getLoaderInstance();
         studentD.createDummy(instructorD);
         
-        lessonD.getLessons().forEach(lesson -> {
-            System.out.print(lesson);
-        });
+//        lessonD.getLessons().forEach(lesson -> {
+//            System.out.print(lesson);
+//        });
 //        studentD.getStudents().forEach((SwimStudent student) -> { 
 //            System.out.println(student);
 //        });

@@ -1,3 +1,4 @@
+//Student ID: M00774667
 package task2.data;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class LoadInstructor {
     }
 
     public void createDummy() {
-        String[] in = {"Alex Ferguson", "Jake Peralta", "James Rickie", "John Wick", "Timmy Turner", "Tom Hanks"};
+        String[] in = {"Willy Wonka", "Jackie Chan", "Jennifer Coolidge", "John Wick", "Timmy Turner", "Tom Hanks"};
         for (String name : in) {
             Instructor instructor = new Instructor(name);
             allInstructors.add(instructor);

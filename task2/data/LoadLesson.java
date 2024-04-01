@@ -1,3 +1,4 @@
+//Student ID: M00774667
 package task2.data;
 
 import java.time.LocalDate;
@@ -39,7 +40,7 @@ public class LoadLesson {
                     for (STEnum stI : startTimes) {
                         //Add the instructor to this constructor
                         SwimLesson sl = new SwimLesson(dowI, stI, lI, currentd, instObj);
-                        instObj.setSchedule(sl);
+                        instObj.setSchedule(sl); 
                         allLessons.add(sl);
                     }
                 }

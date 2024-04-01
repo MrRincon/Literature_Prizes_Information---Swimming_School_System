@@ -37,8 +37,12 @@ public class SwimStudent {
         return upcomingLesson;
     }
 
-    public ArrayList<DistanceSwim> getDistanceSwim() {
+    public ArrayList<DistanceSwim> getAchievements() {
         return achievements;
+    }
+
+    public PersonalSurvival getPsQualification() {
+        return psQualification;
     }
 
     public void setLevel(LEnum level) {
@@ -57,9 +61,14 @@ public class SwimStudent {
         this.achievements.add(ds);
     }
 
-    @Override
+    public void setPsQualification(PersonalSurvival ps) {
+        this.psQualification = ps;
+    }
+
     public String toString() {
-        return "SwimStudent{" + "name=" + name + ", level=" + level + ", waitingList=" + waitingList + ", upcomingLesson=" + upcomingLesson + ", qualifications=" + achievements + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("| %-12s| %-10s| %-5s| %-10s| %-30s| %-90s|", name, level, waitingList, upcomingLesson, psQualification, achievements));
+        return sb.toString();
     }
     
 }

@@ -1,8 +1,7 @@
-
+//Student ID: M00774667
 package task2.data;
 
 import java.util.ArrayList;
-import java.util.Random;
 import task2.Enums.LEnum;
 import task2.SwimStudent;
 
@@ -37,14 +36,5 @@ public class LoadStudent {
     }
     public ArrayList<SwimStudent> getStudents(){
         return this.allStudents;
-    }
-    public SwimStudent selectRandomStudent(){
-        Random r = new Random();
-        SwimStudent selectedStudent;
-        do{ 
-            selectedStudent = allStudents.get(r.nextInt(allStudents.size()));
-        } while (recentlySelected.contains(selectedStudent));
-        recentlySelected.add(selectedStudent);
-        return selectedStudent;
     }
 }
