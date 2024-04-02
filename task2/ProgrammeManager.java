@@ -17,19 +17,6 @@ public class ProgrammeManager {
         lessonD.createDummy(instructorD);
         studentD.createDummy(instructorD, lessonD);
         waitingLD.addDummy(studentD);
-//        instructorD.getInstructors().forEach(instructor -> {
-//            System.out.println(instructor);
-//        });
-//        lessonD.getLessons().forEach(lesson -> {
-//            System.out.print(lesson);
-//        });
-//        studentD.getStudents().forEach((SwimStudent student) -> { 
-//            System.out.println(student);
-//        });
-//        waitingLD.getWS().forEach((SwimStudent student) -> {
-//            System.out.println(student);
-//        });
-        
         Menu menu = Menu.getLoaderInstance();
         menu.mainMenu();
         Scanner scanner = new Scanner(System.in);
