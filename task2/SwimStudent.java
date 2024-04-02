@@ -12,6 +12,15 @@ public class SwimStudent {
     private ArrayList<DistanceSwim> achievements;
     private PersonalSurvival psQualification;
     
+    public SwimStudent (String n){
+        this.name = n;
+        this.level = LEnum.NOVICE;
+        this.waitingList = false;
+        this.upcomingLesson = null;
+        this.achievements = new ArrayList<>();
+        this.psQualification = null;
+    }
+    
     public SwimStudent(String n, LEnum l){
         this.name = n;
         this.level = l;

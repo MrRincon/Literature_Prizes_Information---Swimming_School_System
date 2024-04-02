@@ -79,7 +79,13 @@ public class SwimLesson {
     public void setInstructor(){
         
     }
-    public String toStringOptionTwoList(){
+    
+    public String toStringOptionList(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("| %-11s| %-10s| %-6s| %-10s|%n", date, day, start_time, level));
+        return sb.toString();
+    }
+    public String toStringOptionList(LEnum level){
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("| %-11s| %-10s| %-6s| %-10s|%n", date, day, start_time, level));
         return sb.toString();

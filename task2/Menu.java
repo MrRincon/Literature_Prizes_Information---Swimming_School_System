@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
 import java.util.TreeSet;
+import task2.Enums.LEnum;
 
 
 public class Menu {
@@ -55,6 +56,7 @@ public class Menu {
                 instructorSchedule(instructors);
                 return true;
             case 4:
+                addNewSS(students, lessons, wl);
                 return true;
             case 5:
                 return true;
@@ -105,7 +107,7 @@ public class Menu {
         int selectedSLIndex = -1;
         boolean validInput = false;
         int x = 1;
-        TreeSet<SwimLesson> sortedSL = new TreeSet<>(Comparator.comparing(SwimLesson::toStringOptionTwoList));
+        TreeSet<SwimLesson> sortedSL = new TreeSet<>(Comparator.comparing(SwimLesson::toStringOptionList));
         sortedSL.addAll(sl); 
         ArrayList<SwimLesson> sortedSLList = new ArrayList<>(sortedSL);
         System.out.printf("%-58s%n","=====================================================");
@@ -133,7 +135,7 @@ public class Menu {
         } while (!validInput);
     }
     private void instructorSchedule(ArrayList<Instructor> si){
-        Scanner sc= new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         int selectedSIIndex = -1;
         boolean validInput = false;
         int x = 1;
@@ -163,5 +165,71 @@ public class Menu {
                 System.out.println("Invalid input. Please enter an existent lesson.");
             }
         } while (!validInput);
+    }
+    private void addNewSS(ArrayList<SwimStudent> ss, ArrayList<SwimLesson> sl, WaitingList wl){
+        Scanner sc = new Scanner(System.in);
+        String newName = "";
+        boolean validName = false;
+        do{
+            System.out.print("Enter the new student's name > ");
+            try{
+                newName = sc.nextLine();
+                if(newName.matches("[a-zA-Z]+")){
+                    validName = true;
+                } else {
+                    System.out.println("Please enter an actual name");
+                }
+            } catch (IllegalArgumentException e){
+                System.out.println("Try again your name input");
+            }
+        } while (!validName);
+        SwimStudent newss = new SwimStudent(newName);
+        TreeSet<SwimLesson> sortedSL = new TreeSet<>(Comparator.comparing(lesson -> lesson.toStringOptionList(LEnum.NOVICE)));
+        sortedSL.addAll(sl); 
+        ArrayList<SwimLesson> sortedSLList = new ArrayList<>(sortedSL);
+        int x = 1;
+        for(SwimLesson lesson : sortedSLList){
+            System.out.printf("%-46s%n","^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+            System.out.printf("%-4d...%n", x);
+            System.out.print(lesson);
+            x++;
+        }
+        System.out.printf("%-46s%n","^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        int lsSelectedIndex = 0;
+        do {
+            System.out.print("Insert the number of the lesson that the student would like to attend > ");
+            try{
+                lsSelectedIndex = Integer.parseInt(sc.nextLine().trim());
+                if (lsSelectedIndex >= 1 && lsSelectedIndex <= x){
+                    System.out.print(sortedSLList.get(lsSelectedIndex));
+                    if(sortedSLList.get(lsSelectedIndex).getStudentsInLesson().size() == 4){
+                        System.out.println("Sorry, but this lesson is full.");
+                        String yORn = "";
+                        do{
+                            System.out.print("Would the student like to select another lesson? (Y/N) > ");
+                            yORn = sc.nextLine().trim().toUpperCase();
+                            if(yORn.equals("Y")){
+                                lsSelectedIndex = 0;
+                            } else if (yORn.equals("N")){
+                                wl.addToWL(newss);
+                                newss.setWaitingList(true);
+                                System.out.println("Student is now added to waiting list.");
+                            } else {
+                                System.out.println("Invalid input. Please enter 'Y' for yes or 'N' for no.");
+                            }
+                        } while (!yORn.equals("Y") && !yORn.equals("N"));
+                    } else{
+                        sortedSLList.get(lsSelectedIndex).addStudentsInLesson(newss);
+                        newss.setUpcomingLesson(sortedSLList.get(lsSelectedIndex));
+                        System.out.println("Student is now booked for this lesson.");
+                    }
+                } else {
+                    System.out.println("Please enter a number within the valid range");
+                }
+            } catch (NumberFormatException e){
+                System.out.println("Invalid input. Please enter a number");
+            }
+        } while (lsSelectedIndex < 1 || lsSelectedIndex > x);
+        ss.add(newss);
     }
 }
