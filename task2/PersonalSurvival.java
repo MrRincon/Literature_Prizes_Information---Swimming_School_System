@@ -11,6 +11,7 @@ public class PersonalSurvival extends Qualification {
         this.psQualification = ps;
     }
     
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(psQualification + " " + this.instructor.getName());

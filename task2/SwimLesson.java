@@ -81,7 +81,7 @@ public class SwimLesson {
     }
     public String toStringOptionTwoList(){
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("| %-12s| %-15s| %-6s| %-15s|%n", date, day, start_time, level));
+        sb.append(String.format("| %-11s| %-10s| %-6s| %-10s|%n", date, day, start_time, level));
         return sb.toString();
     }
     @Override

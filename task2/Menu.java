@@ -31,7 +31,7 @@ public class Menu {
     public void mainMenu() {
         System.out.printf("%-40s%n", "==========================================");
         System.out.printf("|%-40s|%n", " The Swim School Administration System  ");
-        System.out.printf("%-40s%n", "==========================================");
+        System.out.printf("%-40s%n", "------------------------------------------");
         System.out.printf("|%-40s|%n", "                 Menu                   ");
         System.out.printf("%-40s%n", "------------------------------------------");
         System.out.printf("|%-40s|%n", "View swim student information..........1");
@@ -52,6 +52,7 @@ public class Menu {
                 swimLessonDeets(lessons);
                 return true;
             case 3:
+                instructorSchedule(instructors);
                 return true;
             case 4:
                 return true;
@@ -122,6 +123,38 @@ public class Menu {
                 selectedSLIndex = Integer.parseInt(input.trim());
                 if (selectedSLIndex > 0 && selectedSLIndex <= sortedSLList.size()){
                     System.out.print(sortedSLList.get(selectedSLIndex-1));
+                    validInput = true; 
+                } else {
+                    System.out.println("Please select a value from the available range.");
+                }
+            } catch (NumberFormatException e){
+                System.out.println("Invalid input. Please enter an existent lesson.");
+            }
+        } while (!validInput);
+    }
+    private void instructorSchedule(ArrayList<Instructor> si){
+        Scanner sc= new Scanner(System.in);
+        int selectedSIIndex = -1;
+        boolean validInput = false;
+        int x = 1;
+        TreeSet<Instructor> sortedSI = new TreeSet<>(Comparator.comparing(Instructor::getName));
+        sortedSI.addAll(si);
+        ArrayList<Instructor> sortedSIList = new ArrayList<>(sortedSI);
+        System.out.printf("%-30s%n","==============================");
+        System.out.printf("%-7s| %-20s|%n", "", "Instructor name");
+        System.out.printf("%-30s%n","------------------------------");
+        for(Instructor instructor : sortedSIList){
+            System.out.printf("%-4d...| %-20s|%n", x, instructor.getName());
+            x++;
+        }
+        System.out.printf("%-30s%n","==============================");
+        do{
+            System.out.print("Input a number to see the lesson details > ");
+            try {
+                String input = sc.nextLine();
+                selectedSIIndex = Integer.parseInt(input.trim());
+                if (selectedSIIndex > 0 && selectedSIIndex <= sortedSIList.size()){
+                    System.out.print(sortedSIList.get(selectedSIIndex-1));
                     validInput = true; 
                 } else {
                     System.out.println("Please select a value from the available range.");

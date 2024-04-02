@@ -14,6 +14,7 @@ public class DistanceSwim extends Qualification {
     public DAEnum getDistance(){
         return this.distanceAchieved;
     }
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.distanceAchieved+" "+this.instructor.getName());

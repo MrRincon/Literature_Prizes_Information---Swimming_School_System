@@ -1,6 +1,7 @@
 //Student ID: M00774667
 package task2;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 import task2.Enums.DAEnum;
@@ -87,13 +88,19 @@ public class Instructor {
     }
     
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("| %5s | ", name));
+        sb.append(String.format("%-46s%n","=============================================="));
+        sb.append(String.format("|| %-41s||%n", name));
+        LocalDate currentDate = LocalDate.now();
         for(SwimLesson lesson : schedule){
-            sb.append(String.format("%4s %4s,", lesson.getDay(), lesson.getDate()));
+            if(lesson.getDate().isAfter(currentDate.minusDays(1)) &&
+                lesson.getDate().isBefore(currentDate.plusDays(7))){
+                sb.append(lesson);
+            }
+            
         }
-        sb.append(" |\n");
         return sb.toString();
     }
     
