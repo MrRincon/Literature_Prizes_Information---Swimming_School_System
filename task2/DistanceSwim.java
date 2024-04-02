@@ -11,11 +11,12 @@ public class DistanceSwim extends Qualification {
         super(i);
         this.distanceAchieved = da;
     }
-
+    public DAEnum getDistance(){
+        return this.distanceAchieved;
+    }
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(distanceAchieved.toString());
-        sb.append(" "+this.instructor.getName());
+        sb.append(this.distanceAchieved+" "+this.instructor.getName());
         return sb.toString();
     }
     

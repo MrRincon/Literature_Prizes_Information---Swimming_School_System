@@ -46,7 +46,7 @@ public class Instructor {
             case IMPROVER:
                 switch (x){
                     case 0:
-                        DistanceSwim ds = new DistanceSwim(this, DAEnum.selectRandomNovice());
+                        DistanceSwim ds = new DistanceSwim(this, DAEnum.M20);
                         ss.addDistanceSwim(ds);
                         x++;
                     case 1: 
@@ -59,11 +59,11 @@ public class Instructor {
             case ADVANCE:
                 switch(x){
                     case 0:
-                        DistanceSwim ds = new DistanceSwim(this, DAEnum.selectRandomNovice());
+                        DistanceSwim ds = new DistanceSwim(this, DAEnum.M20);
                         ss.addDistanceSwim(ds);
                         x++;
                     case 1:
-                        DistanceSwim ds1 = new DistanceSwim(this, DAEnum.selectRandomImprover());
+                        DistanceSwim ds1 = new DistanceSwim(this, DAEnum.M400);
                         ss.addDistanceSwim(ds1);
                         x++;
                     case 2:

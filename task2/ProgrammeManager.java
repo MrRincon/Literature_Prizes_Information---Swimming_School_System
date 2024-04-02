@@ -9,21 +9,27 @@ import task2.data.LoadStudent;
 public class ProgrammeManager {
 
     public void start() {
-        WaitingList wl = WaitingList.getLoaderInstance();
+        WaitingList waitingLD = WaitingList.getLoaderInstance();
         LoadInstructor instructorD = LoadInstructor.getLoaderInstance();
-        instructorD.createDummy();
         LoadLesson lessonD = LoadLesson.getLoaderInstance();
-        lessonD.createDummy(instructorD);
         LoadStudent studentD = LoadStudent.getLoaderInstance();
-        studentD.createDummy(instructorD);
-        
+        instructorD.createDummy();
+        lessonD.createDummy(instructorD);
+        studentD.createDummy(instructorD, lessonD);
+        waitingLD.addDummy(studentD);
+//        instructorD.getInstructors().forEach(instructor -> {
+//            System.out.println(instructor);
+//        });
 //        lessonD.getLessons().forEach(lesson -> {
 //            System.out.print(lesson);
 //        });
 //        studentD.getStudents().forEach((SwimStudent student) -> { 
 //            System.out.println(student);
 //        });
-                
+//        waitingLD.getWS().forEach((SwimStudent student) -> {
+//            System.out.println(student);
+//        });
+        
         Menu menu = Menu.getLoaderInstance();
         menu.mainMenu();
         Scanner scanner = new Scanner(System.in);
@@ -33,24 +39,8 @@ public class ProgrammeManager {
                 System.out.print("Enter choice > ");//Input choice for main menu
                 choice = Integer.parseInt(scanner.nextLine());
                 //If the menu choice is false print error message
-                if (!processChoice(choice)) {
+                if (!menu.processChoice(choice, instructorD.getInstructors(), lessonD.getLessons(), studentD.getStudents(), waitingLD)) {
                     System.out.println("Invalid choice. Please enter a valid option.");
-                } else {
-                    System.out.println(choice);
-                    switch (choice) {
-                        case 1:
-//                          menu.whateverfunction
-                        case 2:
-//                          
-                        case 3:
-//                          
-                        case 4:
-//                            
-                        case 5:
-//                            
-                        case 6:
-//                            
-                    }
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.(No spaces or special characters)");
@@ -58,27 +48,5 @@ public class ProgrammeManager {
             menu.mainMenu();
         }
         scanner.close();
-    }
-
-    public boolean processChoice(int choice) {
-        switch (choice) {
-            case 1:
-                return true;
-            case 2:
-                return true;
-            case 3:
-                return true;
-            case 4:
-                return true;
-            case 5:
-                return true;
-            case 6:
-                return true;
-            case 0:
-                System.out.println("Exiting...");
-                System.exit(0);
-            default:
-                return false;
-        }
     }
 }

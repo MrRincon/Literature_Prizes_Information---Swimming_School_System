@@ -2,6 +2,7 @@
 package task2;
 
 import java.util.LinkedList;
+import task2.data.LoadStudent;
 
 public class WaitingList {
     private static WaitingList instance;
@@ -19,13 +20,20 @@ public class WaitingList {
             return instance;
         }
     }
-
+    
+    public void addDummy(LoadStudent students){
+        students.getStudents().forEach((SwimStudent student) -> { 
+            if(student.isWaitingList()){
+                this.waitingStudents.offer(student);
+            }
+        });
+    }
     public LinkedList<SwimStudent> getWS() {
         return waitingStudents;
     }
 
-    public void addToWL(SwimStudent ws) {
-        this.waitingStudents.offer(ws);
+    public void addToWL(SwimStudent ss) {
+        this.waitingStudents.offer(ss);
     }
     public SwimStudent removeFromWL(){
         return this.waitingStudents.poll();

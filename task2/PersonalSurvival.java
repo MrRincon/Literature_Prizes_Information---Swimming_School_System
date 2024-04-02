@@ -13,8 +13,7 @@ public class PersonalSurvival extends Qualification {
     
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(psQualification.toString());
-        sb.append(" "+this.instructor.getName());
+        sb.append(psQualification + " " + this.instructor.getName());
         return sb.toString();
     }
     

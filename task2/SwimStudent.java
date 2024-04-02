@@ -15,7 +15,7 @@ public class SwimStudent {
     public SwimStudent(String n, LEnum l){
         this.name = n;
         this.level = l;
-        this.waitingList = true;
+        this.waitingList = false;
         this.upcomingLesson = null;
         this.achievements = new ArrayList<>();
         this.psQualification = null;
@@ -64,12 +64,33 @@ public class SwimStudent {
     public void setPsQualification(PersonalSurvival ps) {
         this.psQualification = ps;
     }
-
-    public String toString() {
+    @Override
+    public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("| %-12s| %-10s| %-5s| %-10s| %-30s| %-90s|", name, level, waitingList, upcomingLesson, psQualification, achievements));
+        sb.append(String.format("%-35s%n","==================================="));
+        sb.append(String.format("| %-16s %-15s|%n", name, level));
+        if(upcomingLesson==null){
+            if(achievements.isEmpty()){
+                sb.append(String.format("| %-32s|%n", "This is a new student"));
+            }
+            sb.append(String.format("| %-32s|%n", "Student is on waiting list"));
+            sb.append(String.format("%-35s%n","==================================="));
+        } else { 
+            sb.append(String.format("| %-11s %-12s %-7s|%n", upcomingLesson.getDay(), upcomingLesson.getDate(), upcomingLesson.getStart_time()));
+            sb.append(String.format("| %-32s|%n", upcomingLesson.getInstructorAssigned().getName()));
+            sb.append(String.format("%-35s%n","==================================="));
+        }
+        if(!achievements.isEmpty()){
+            achievements.forEach(achievement -> {
+                sb.append(String.format("| %-32s|%n", achievement));
+            });
+            sb.append(String.format("%-35s%n","==================================="));
+        }
+        if(psQualification != null){
+            sb.append(String.format("| %-32s|%n", psQualification));
+            sb.append(String.format("%-35s%n","==================================="));
+        }
         return sb.toString();
     }
-    
 }
   
