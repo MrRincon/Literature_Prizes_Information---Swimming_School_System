@@ -46,7 +46,7 @@ public class LoadStudent {
                                 break;
                             default:
                                 //Find the next lesson for the student level
-                                SwimLesson nextAvailable = findNextAvailable(lessons, ss.getLevel());
+                                SwimLesson nextAvailable = findNextAvailable(lessons.getLessons(), ss.getLevel());
                                 if (nextAvailable != null) {
                                     //Set the student upcoming lesson and add the student to the lesson
                                     ss.setUpcomingLesson(nextAvailable);
@@ -69,7 +69,7 @@ public class LoadStudent {
                             ss.setWaitingList(true);
                             break;
                         default:
-                            SwimLesson nextAvailable = findNextAvailable(lessons, ss.getLevel());
+                            SwimLesson nextAvailable = findNextAvailable(lessons.getLessons(), ss.getLevel());
                             if (nextAvailable != null) {
                                 ss.setUpcomingLesson(nextAvailable);
                                 nextAvailable.addStudentsInLesson(ss);
@@ -81,7 +81,7 @@ public class LoadStudent {
                     break;
                 case ADVANCE:
                     //For advance, just add them to the next lesson available, if any
-                    SwimLesson nextAvailable = findNextAvailable(lessons, ss.getLevel());
+                    SwimLesson nextAvailable = findNextAvailable(lessons.getLessons(), ss.getLevel());
                     if (nextAvailable != null) {
                         ss.setUpcomingLesson(nextAvailable);
                         nextAvailable.addStudentsInLesson(ss);
@@ -96,8 +96,8 @@ public class LoadStudent {
     }
 
     //Method to find the next available lesson
-    private SwimLesson findNextAvailable(LoadLesson lessons, LEnum studentLevel) {
-        for (SwimLesson lesson : lessons.getLessons()) {
+    private SwimLesson findNextAvailable(ArrayList<SwimLesson> lessons, LEnum studentLevel) {
+        for (SwimLesson lesson : lessons) {
             //Check if the lesson matches with the student level and that it is not full with other students
             if (lesson.getLevel() == studentLevel && lesson.getStudentsInLesson().size() < lesson.getMaxStudents()) {
                 return lesson;

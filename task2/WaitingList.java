@@ -35,7 +35,7 @@ public class WaitingList {
     public void addToWL(SwimStudent ss) {
         this.waitingStudents.offer(ss);
     }
-    public SwimStudent removeFromWL(){
-        return this.waitingStudents.poll();
-    }
+//    public SwimStudent removeFromWL(){
+//        return this.waitingStudents.poll();
+//    }
 }
