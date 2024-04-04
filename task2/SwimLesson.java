@@ -89,9 +89,9 @@ public class SwimLesson {
     
     
     //Overload method for simple representation of the swim lesson for an specific swim level
-    public String toStringOptionList(LEnum level){
+    public String toStringOptionList(LEnum lvl){
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("| %-11s| %-10s| %-6s| %-10s|%n", date, day, start_time, level));
+        sb.append(String.format("| %-11s| %-10s| %-6s| %-10s|%n", date, day, start_time, lvl));
         return sb.toString();
     }
     

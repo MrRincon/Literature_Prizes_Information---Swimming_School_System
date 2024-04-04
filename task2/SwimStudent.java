@@ -80,13 +80,6 @@ public class SwimStudent {
         this.achievements.add(ds);
     }
 
-    //
-    public String toStringOptionList(LEnum lvl){
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("| %-15s|%n", lvl));
-        return sb.toString();
-    }
-    
     //toString method to represent the object with detailed information
     @Override
     public String toString(){
