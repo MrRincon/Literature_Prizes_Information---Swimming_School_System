@@ -76,6 +76,10 @@ public class Instructor {
                 case GOLD:
                     break;
             }
+        } else {
+            missingQ.add(PSEnum.BRONZE);
+            missingQ.add(PSEnum.SILVER);
+            missingQ.add(PSEnum.GOLD);
         }
         return missingQ;
     }

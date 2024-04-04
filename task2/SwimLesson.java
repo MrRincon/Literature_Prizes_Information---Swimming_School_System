@@ -10,13 +10,13 @@ import task2.Enums.STEnum;
 
 public class SwimLesson {
 
-    private DOWEnum day;
-    private STEnum start_time;
-    private LEnum level;
+    private final DOWEnum day;
+    private final STEnum start_time;
+    private final LEnum level;
     private int maxStudents;
-    private ArrayList<SwimStudent> studentsInLesson;
-    private LocalDate date;
-    private Instructor instructorAssigned;
+    private final ArrayList<SwimStudent> studentsInLesson;
+    private final LocalDate date;
+    private final Instructor instructorAssigned;
 
     public SwimLesson(DOWEnum dow, STEnum t, LEnum l, LocalDate d, Instructor i) {
         this.day = dow;
@@ -29,7 +29,7 @@ public class SwimLesson {
         
     }
 
-    public LocalDate lessonDate(LocalDate d, DOWEnum dow) {
+    public final LocalDate lessonDate(LocalDate d, DOWEnum dow) {
         DayOfWeek desiredDay = DayOfWeek.valueOf(dow.name());
         DayOfWeek currentDay = d.getDayOfWeek();
         int daysToAdd = desiredDay.getValue() - currentDay.getValue();
