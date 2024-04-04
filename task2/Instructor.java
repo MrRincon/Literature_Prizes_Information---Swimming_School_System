@@ -1,6 +1,7 @@
 //Student ID: M00774667
 package task2;
 
+//Import any essential packages to use in this class
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,14 +11,16 @@ import task2.Enums.PSEnum;
 
 public class Instructor {
 
-    private String name;
-    private ArrayList<SwimLesson> schedule;
+    private final String name;
+    private final ArrayList<SwimLesson> schedule;
 
+    //Constructor for swim instructor object
     public Instructor(String name) {
         this.name = name;
         this.schedule = new ArrayList<>();
     }
 
+    //Getters and setters for some of the attributes
     public String getName() {
         return name;
     }
@@ -26,6 +29,7 @@ public class Instructor {
         this.schedule.add(lesson);
     }
 
+    //Method to handle missing swim distances within the student level
     public ArrayList<DAEnum> showMissingSD(SwimStudent ss) {
         ArrayList<DAEnum> missingQ = new ArrayList<>();
         switch (ss.getLevel()) {
@@ -44,7 +48,8 @@ public class Instructor {
         }
         return missingQ;
     }
-
+    
+    //Method to find the missing swim distance qualifications not yet achieved by the student
     private ArrayList<DAEnum> findMissing(DAEnum[] availableD, SwimStudent ss) {
         ArrayList<DAEnum> missingQ = new ArrayList<>();
         for (DAEnum distance : availableD) {
@@ -61,7 +66,8 @@ public class Instructor {
         }
         return missingQ;
     }
-
+    
+    //Overload method to find the missing personal survival qualifications not yet achieved by the student
     public ArrayList<PSEnum> findMissing(PSEnum[] availablePS, SwimStudent ss) {
         ArrayList<PSEnum> missingQ = new ArrayList<>();
         if (ss.getPsQualification() != null) {
@@ -84,6 +90,7 @@ public class Instructor {
         return missingQ;
     }
 
+    //Method to grant swim qualifications (for dummy data)
     public void grantQualification(SwimStudent ss) {
         int x = 0;
         switch (ss.getLevel()) {
@@ -109,7 +116,6 @@ public class Instructor {
                     case 1:
                         DistanceSwim ds1 = new DistanceSwim(this, DAEnum.selectRandomImprover());
                         ss.addDistanceSwim(ds1);
-                        x = 0;
                         break;
                 }
                 break;
@@ -126,7 +132,6 @@ public class Instructor {
                     case 2:
                         DistanceSwim ds2 = new DistanceSwim(this, DAEnum.selectRandomAdvance());
                         ss.addDistanceSwim(ds2);
-                        x = 0;
                         break;
                 }
                 Random randy = new Random();
@@ -143,6 +148,7 @@ public class Instructor {
         }
     }
 
+    //Method to grant swim qualifications based on an specific distance
     public boolean grantQualification(SwimStudent ss, DAEnum sd) {
         boolean lookForNextLesson = true;
         DistanceSwim ds = new DistanceSwim(this, sd);
@@ -174,18 +180,19 @@ public class Instructor {
         return lookForNextLesson;
     }
 
+    //toString method to represent the object with detailed information
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%-46s%n", "=============================================="));
         sb.append(String.format("|| %-41s||%n", name));
         LocalDate currentDate = LocalDate.now();
-        for (SwimLesson lesson : schedule) {
+        schedule.forEach(lesson -> {
             if (lesson.getDate().isAfter(currentDate.minusDays(1))
                     && lesson.getDate().isBefore(currentDate.plusDays(7))) {
                 sb.append(lesson);
             }
-        }
+        });
         return sb.toString();
     }
 

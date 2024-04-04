@@ -1,10 +1,12 @@
 //Student ID: M00774667
 package task2;
 
+//Import any essential packages to use in this class
 import java.util.ArrayList;
 import task2.Enums.LEnum;
 
 public class SwimStudent {
+    
     private String name;
     private LEnum level;
     private boolean waitingList;
@@ -12,6 +14,7 @@ public class SwimStudent {
     private ArrayList<DistanceSwim> achievements;
     private PersonalSurvival psQualification;
     
+    //Constructor for swim student object using name only
     public SwimStudent (String n){
         this.name = n;
         this.level = LEnum.NOVICE;
@@ -21,6 +24,7 @@ public class SwimStudent {
         this.psQualification = null;
     }
     
+    //Overload constructor for swim student object using name and level
     public SwimStudent(String n, LEnum l){
         this.name = n;
         this.level = l;
@@ -30,6 +34,7 @@ public class SwimStudent {
         this.psQualification = null;
     }
 
+    //Getters and setters for the attributes
     public String getName() {
         return name;
     }
@@ -66,13 +71,23 @@ public class SwimStudent {
         this.upcomingLesson = upcomingLesson;
     }
 
+    public void setPsQualification(PersonalSurvival ps) {
+        this.psQualification = ps;
+    }
+    
+    //Method to add a distance swim qualification to the achievements
     public void addDistanceSwim(DistanceSwim ds) {
         this.achievements.add(ds);
     }
 
-    public void setPsQualification(PersonalSurvival ps) {
-        this.psQualification = ps;
+    //
+    public String toStringOptionList(LEnum lvl){
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("| %-15s|%n", lvl));
+        return sb.toString();
     }
+    
+    //toString method to represent the object with detailed information
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();

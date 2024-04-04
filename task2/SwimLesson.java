@@ -1,6 +1,7 @@
 //Student ID: M00774667
 package task2;
 
+//Import any essential packages to use in this class
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import task2.Enums.LEnum;
 import task2.Enums.STEnum;
 
 public class SwimLesson {
-
     private final DOWEnum day;
     private final STEnum start_time;
     private final LEnum level;
@@ -17,7 +17,8 @@ public class SwimLesson {
     private final ArrayList<SwimStudent> studentsInLesson;
     private final LocalDate date;
     private final Instructor instructorAssigned;
-
+    
+    //Constructor for swim lesson object
     public SwimLesson(DOWEnum dow, STEnum t, LEnum l, LocalDate d, Instructor i) {
         this.day = dow;
         this.start_time = t;
@@ -28,7 +29,9 @@ public class SwimLesson {
         this.instructorAssigned = i;
         
     }
-
+    
+    /*Method to calculate the date of the lesson based on the current date 
+    and the day of the week passed as a parameter*/
     public final LocalDate lessonDate(LocalDate d, DOWEnum dow) {
         DayOfWeek desiredDay = DayOfWeek.valueOf(dow.name());
         DayOfWeek currentDay = d.getDayOfWeek();
@@ -38,7 +41,8 @@ public class SwimLesson {
         }
         return d.plusDays(daysToAdd);
     }
-
+    
+    //Getters and setters for the attributes
     public DOWEnum getDay() {
         return day;
     }
@@ -76,20 +80,22 @@ public class SwimLesson {
         this.studentsInLesson.add(ss);
     }
     
-    public void setInstructor(){
-        
-    }
-    
+    //Method for simple representation of the swim lesson
     public String toStringOptionList(){
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("| %-11s| %-10s| %-6s| %-10s|%n", date, day, start_time, level));
         return sb.toString();
     }
+    
+    
+    //Overload method for simple representation of the swim lesson for an specific swim level
     public String toStringOptionList(LEnum level){
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("| %-11s| %-10s| %-6s| %-10s|%n", date, day, start_time, level));
         return sb.toString();
     }
+    
+    //toString method to represent the object with detailed information
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

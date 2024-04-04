@@ -9,9 +9,9 @@ public enum PSEnum {
     BRONZE,
     SILVER,
     GOLD;
-    
+
     //Method to return a random qualification from the enum, for the dummy data
-    public static PSEnum selectRandom(){
+    public static PSEnum selectRandom() {
         Random r = new Random();
         int i = r.nextInt(PSEnum.values().length);
         return PSEnum.values()[i];

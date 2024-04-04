@@ -16,7 +16,7 @@ public enum STEnum {
     STEnum(String t) {
         this.startTime = t;
     }
-    
+
     //Override toString method to return the startTime value
     @Override
     public String toString() {

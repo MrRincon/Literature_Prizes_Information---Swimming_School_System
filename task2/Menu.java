@@ -11,7 +11,6 @@ import task2.Enums.LEnum;
 import task2.Enums.PSEnum;
 
 public class Menu {
-
     private static Menu instance;
 
     //Private constructor to disallow creation of other object instances of LoadMenu outside of this class 
@@ -58,12 +57,13 @@ public class Menu {
                 instructorSchedule(instructors);
                 return true;
             case 4://Add a new swim student
-                addNewSS(students, lessons, wl);
+                students.add(addNewSS(lessons, wl));
                 return true;
             case 5://Award a swim qualification
                 awardSQ(instructors, students, lessons, wl);
                 return true;
             case 6://Move swim student from the waiting list
+                moveStudentFromWL(students, wl, lessons);
                 return true;
             case 0://Exit the program
                 System.out.println("Exiting...");
@@ -193,14 +193,19 @@ public class Menu {
         } while (!validInput);
     }
 
-    private void addNewSS(ArrayList<SwimStudent> ss, ArrayList<SwimLesson> sl, WaitingList wl) {
+    //Method to add a new swimming student
+    private SwimStudent addNewSS(ArrayList<SwimLesson> sl, WaitingList wl) {
         Scanner sc = new Scanner(System.in);
         String newName = "";
         boolean validName = false;
+        int x = 1;
+        int lsSelectedIndex = 0;
         do {
+            //Prompt user input for the name of the new student
             System.out.print("Enter the new student's name > ");
             try {
                 newName = sc.nextLine();
+                //Check for only alphabetic characters
                 if (newName.matches("[a-zA-Z]+")) {
                     validName = true;
                 } else {
@@ -210,11 +215,13 @@ public class Menu {
                 System.out.println("Try again your name input");
             }
         } while (!validName);
+        //Use the name input to create a SwimStudent object
         SwimStudent newss = new SwimStudent(newName);
+        ////Swimming lessons list sorted by a string pattern and novice level
         TreeSet<SwimLesson> sortedSL = new TreeSet<>(Comparator.comparing(lesson -> lesson.toStringOptionList(LEnum.NOVICE)));
         sortedSL.addAll(sl);
         ArrayList<SwimLesson> sortedSLList = new ArrayList<>(sortedSL);
-        int x = 1;
+        //Display all the novice lessons basic information with an index
         for (SwimLesson lesson : sortedSLList) {
             System.out.printf("%-46s%n", "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
             System.out.printf("%-4d...%n", x);
@@ -222,26 +229,30 @@ public class Menu {
             x++;
         }
         System.out.printf("%-46s%n", "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-        int lsSelectedIndex = 0;
         do {
-            System.out.print("Insert the number of the lesson that the student would like to attend > ");
+            //Prompt user input to select a lesson using the index
+            System.out.print("Insert the lesson's index that the student would like to attend > ");
             try {
                 lsSelectedIndex = Integer.parseInt(sc.nextLine().trim());
+                //Check if the input is within range
                 if (lsSelectedIndex >= 1 && lsSelectedIndex <= x) {
+                    //Check if the selected lesson is full
                     if (sortedSLList.get(lsSelectedIndex - 1).getStudentsInLesson().size() == 4) {
                         System.out.println("Sorry, but this lesson is full.");
                         String yORn;
                         do {
+                            //Prompt user input to choose another lesson or get on the waiting list
                             System.out.print("Would the student like to select another lesson? (Y/N) > ");
                             yORn = sc.nextLine().trim().toUpperCase();
                             switch (yORn) {
                                 case "Y":
+                                    //Reset the scanner and the selected index to select again
                                     sc.reset();
                                     lsSelectedIndex = 0;
                                     break;
                                 case "N":
-                                    wl.addToWL(newss);
-                                    newss.setWaitingList(true);
+                                    wl.addToWL(newss);//Add student to the waiting list
+                                    newss.setWaitingList(true);//Mark student as on waiting list
                                     System.out.println("Student is now added to waiting list.");
                                     break;
                                 default:
@@ -250,7 +261,9 @@ public class Menu {
                             }
                         } while (!yORn.equals("Y") && !yORn.equals("N"));
                     } else {
+                        //Add the new student to the lesson
                         sortedSLList.get(lsSelectedIndex - 1).addStudentsInLesson(newss);
+                        //Assign the lesson to the new student
                         newss.setUpcomingLesson(sortedSLList.get(lsSelectedIndex - 1));
                         System.out.println("Student is now booked for this lesson.");
                     }
@@ -261,9 +274,11 @@ public class Menu {
                 System.out.println("Invalid input. Please enter a number");
             }
         } while (lsSelectedIndex < 1 || lsSelectedIndex > x);
-        ss.add(newss);
+        //Return the new student to be added to the list of all the students
+        return newss;
     }
 
+    //
     private void awardSQ(ArrayList<Instructor> si, ArrayList<SwimStudent> ss, ArrayList<SwimLesson> sl, WaitingList wl) {
         Scanner sc = new Scanner(System.in);
         int selectedSIIndex;
@@ -355,6 +370,69 @@ public class Menu {
         }
     }
 
+    //
+    private void moveStudentFromWL(ArrayList<SwimStudent> ss, WaitingList wl, ArrayList<SwimLesson> sl){
+        Scanner sc = new Scanner(System.in);
+        int selectedSSIndex;
+        boolean validInput = false;
+        int x = 1;
+        ArrayList<SwimStudent> newNovSS = new ArrayList<>();
+        newNovSS.addAll(wl.getWS());
+        //WORKING HERE
+//        ArrayList<SwimStudent> noviceSS = new ArrayList<>();
+//        ArrayList<SwimStudent> newImpSS = new ArrayList<>();
+//        ArrayList<SwimStudent> improverSS = new ArrayList<>();
+//        ArrayList<SwimStudent> newAdvSS = new ArrayList<>();
+//        ArrayList<SwimStudent> advanceSS = new ArrayList<>();
+        SwimStudent chosenSS = null;
+//        wl.getWS().forEach(student -> {
+//            switch (student.getLevel()){
+//                case NOVICE:
+//                    //WORKING HERE
+//                    
+//                case IMPROVER: 
+//                    if(student.getAchievements().)
+//            }
+//        });
+        //Swimming students list sorted by new students, recently upgraded students to Improver, recently upgraded students to Advance
+//        
+        TreeSet<SwimStudent> sortedSS = new TreeSet<>(Comparator.comparing(student -> student.toStringOptionList(LEnum.NOVICE)));
+        sortedSS.addAll(newNovSS);
+        ArrayList<SwimStudent> sortedSSList = new ArrayList<>(sortedSS);
+        //Header for students basic information
+        System.out.printf("%-34s%n", "==================================");
+        System.out.printf("%-7s| %-12s| %-10s|%n", "", "Name", "Level");
+        System.out.printf("%-34s%n", "----------------------------------");
+        //Display all the students basic information with an index
+        for (SwimStudent student : sortedSSList) {
+            System.out.printf("%-4d...%n", x);
+            System.out.print(student);
+//            System.out.printf("%-4d...| %-12s| %-10s|%n", x, student.getName(), student.getLevel());
+            x++;
+        }
+        System.out.printf("%-34s%n", "==================================");
+        do {
+            //Prompt user input to select a student using the index
+            System.out.print("Input the student's index for more information > ");
+            try {
+                String input = sc.nextLine();
+                selectedSSIndex = Integer.parseInt(input.trim());
+                //Check if input is within range
+                if (selectedSSIndex > 0 && selectedSSIndex <= sortedSSList.size()) {
+                    //Display all the information of the student
+                    chosenSS = sortedSSList.get(selectedSSIndex - 1);
+                    validInput = true;
+                } else {
+                    System.out.println("Please select a value from the available range.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter an existent student.");
+            }
+        } while (!validInput);
+        System.out.println(chosenSS);
+    }
+    
+    //
     private void chooseAward(Instructor chosenSI, SwimStudent chosenSS, ArrayList<SwimLesson> sl, WaitingList wl) {
         Scanner sc = new Scanner(System.in);
         int selectedSDIndex;
@@ -408,6 +486,7 @@ public class Menu {
             } else {
                 chosenSS.setWaitingList(true);
                 wl.addToWL(chosenSS);
+                chosenSS.setUpcomingLesson(null);
                 System.out.println("The swim level of the student has increased to " + chosenSS.getLevel()
                         + ".\nStudent is now on the waiting list.");
             }
@@ -417,6 +496,7 @@ public class Menu {
         }
     }
 
+    //
     private void chooseAward(Instructor chosenSI, SwimStudent chosenSS) {
         Scanner sc = new Scanner(System.in);
         PSEnum[] psQ = {PSEnum.BRONZE, PSEnum.SILVER, PSEnum.GOLD};

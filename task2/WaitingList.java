@@ -1,12 +1,14 @@
 //Student ID: M00774667
 package task2;
 
+//Import any essential packages to use in this class
 import java.util.LinkedList;
 import task2.data.LoadStudent;
 
 public class WaitingList {
+    
     private static WaitingList instance;
-    private LinkedList<SwimStudent> waitingStudents;
+    private final LinkedList<SwimStudent> waitingStudents;
     
     private WaitingList(){
         this.waitingStudents = new LinkedList<>();

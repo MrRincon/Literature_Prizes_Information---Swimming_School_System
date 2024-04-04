@@ -9,9 +9,9 @@ public enum LEnum {
     NOVICE,
     IMPROVER,
     ADVANCE;
-    
+
     //Method to return a random level from the enum, for the dummy data
-    public static LEnum randomLevel(){
+    public static LEnum randomLevel() {
         Random random = new Random();
         int index = random.nextInt(values().length);
         return values()[index];
