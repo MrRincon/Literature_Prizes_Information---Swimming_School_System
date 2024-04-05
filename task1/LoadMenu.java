@@ -160,7 +160,7 @@ public class LoadMenu {
         System.out.printf("| %-30s | %-80s | %-4s |%n", "Name", "Genres", "Year");
         System.out.printf("----------------------------------------------------------------------------------------------------------------------------\n");
         boolean noMatchesFound = true;
-        TreeSet<String> ts = new TreeSet();
+        TreeSet<String> ts = new TreeSet<>();
         //Loop through all the literature prizes obj and the Laureates for each prize
         for (LiteraturePrize prize : allYearObjs) {
             for (Laureate laureate : prize.getLaureates()) {
