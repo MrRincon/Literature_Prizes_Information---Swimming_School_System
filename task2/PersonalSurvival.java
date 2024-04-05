@@ -30,7 +30,7 @@ public class PersonalSurvival extends Qualification {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(psQualification + " " + instructor.getName());
+        sb.append(psQualification).append(" ").append(instructor.getName());
         return sb.toString();
     }
 }

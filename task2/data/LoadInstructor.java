@@ -51,15 +51,15 @@ public class LoadInstructor {
         return allInstructors.get(index);
     }
 
-    /*Method to return a random Instructor from a separate ArrayList 
-    to forbid 3 times the use of the Instructors previously selected*/
+    //Method to return a random Instructor 
     public Instructor selectRandomInstructor() {
         Random random = new Random();
         Instructor selectedInstructor;
-        do {
+        do {//Loop until an instructor is found and that has not been recentrly selected 
             selectedInstructor = allInstructors.get(random.nextInt(allInstructors.size()));
         } while (recentlySelected.contains(selectedInstructor));
         recentlySelected.add(selectedInstructor);
+        //If more than two instructors have been selected consecutively, clear the recently selected ArrayList
         if (recentlySelected.size() > 2) {
             recentlySelected.clear();
         }

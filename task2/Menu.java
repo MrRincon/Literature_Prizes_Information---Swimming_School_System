@@ -80,7 +80,7 @@ public class Menu {
         int selectedSSIndex;
         boolean validInput = false;
         int x = 1;
-        //Swimming students list sorted alphabetically by name
+        //Swimming students ArrayList sorted alphabetically by name using TreeSet
         TreeSet<SwimStudent> sortedSS = new TreeSet<>(Comparator.comparing(SwimStudent::getName));
         sortedSS.addAll(ss);
         ArrayList<SwimStudent> sortedSSList = new ArrayList<>(sortedSS);
@@ -120,7 +120,7 @@ public class Menu {
         int selectedSLIndex;
         boolean validInput = false;
         int x = 1;
-        //Swimming lessons list sorted by a string pattern
+        //Swimming lessons ArrayList sorted by a TreeSet and a string pattern defined on the SwimLesson class
         TreeSet<SwimLesson> sortedSL = new TreeSet<>(Comparator.comparing(SwimLesson::toStringOptionList));
         sortedSL.addAll(sl);
         ArrayList<SwimLesson> sortedSLList = new ArrayList<>(sortedSL);
@@ -154,13 +154,13 @@ public class Menu {
         } while (!validInput);
     }
 
-    //Method to display information about swimming instructors
+    //Method to display information about the swimming instructors schedules
     private void instructorSchedule(ArrayList<Instructor> si) {
         Scanner sc = new Scanner(System.in);
         int selectedSIIndex;
         boolean validInput = false;
         int x = 1;
-        //Swimming instructor list sorted alphabetically by name
+        //Swimming instructor ArrayList sorted alphabetically by name using TreeSet
         TreeSet<Instructor> sortedSI = new TreeSet<>(Comparator.comparing(Instructor::getName));
         sortedSI.addAll(si);
         ArrayList<Instructor> sortedSIList = new ArrayList<>(sortedSI);
@@ -214,7 +214,7 @@ public class Menu {
         } while (!validName);
         //Use the name input to create a SwimStudent object
         SwimStudent newss = new SwimStudent(newName);
-        //Swimming lessons list sorted by a string pattern and novice level
+        //Swimming lessons ArrayList sorted by a string pattern and the novice level
         TreeSet<SwimLesson> sortedSL = new TreeSet<>(Comparator.comparing(lesson -> lesson.toStringOptionList(LEnum.NOVICE)));
         sortedSL.addAll(sl);
         ArrayList<SwimLesson> sortedSLList = new ArrayList<>(sortedSL);
@@ -249,7 +249,7 @@ public class Menu {
                                     break;
                                 case "N":
                                     wl.addToWL(newss);//Add student to the waiting list
-                                    newss.setWaitingList(true);//Mark student as on waiting list
+                                    newss.setWaitingList(true);//Specify that the student is on the waiting list
                                     System.out.println("Student is now added to waiting list.");
                                     break;
                                 default:
@@ -276,31 +276,36 @@ public class Menu {
         return newss;
     }
 
-    //
+    //Method for an instructor to award a qualification to a student
     private void awardSQ(ArrayList<Instructor> si, ArrayList<SwimStudent> ss, ArrayList<SwimLesson> sl, WaitingList wl) {
         Scanner sc = new Scanner(System.in);
         int selectedSIIndex;
         boolean validInput = false;
         int x = 1;
+        Instructor chosenSI = null;
+        //Swimming instructor ArrayList sorted alphabetically by name using TreeSet
         TreeSet<Instructor> sortedSI = new TreeSet<>(Comparator.comparing(Instructor::getName));
         sortedSI.addAll(si);
         ArrayList<Instructor> sortedSIList = new ArrayList<>(sortedSI);
-        Instructor chosenSI = null;
+        //Header for instructors basic information
         System.out.printf("%-30s%n", "==============================");
         System.out.printf("%-7s| %-20s|%n", "", "Instructor name");
         System.out.printf("%-30s%n", "------------------------------");
+        //Display all the instructors basic information with an index
         for (Instructor instructor : sortedSIList) {
             System.out.printf("%-4d...| %-20s|%n", x, instructor.getName());
             x++;
         }
         System.out.printf("%-30s%n", "==============================");
         do {
+            //Prompt user input to select an instructor using the index
             System.out.print("Input a number to select an instructor > ");
             try {
                 String input = sc.nextLine();
                 selectedSIIndex = Integer.parseInt(input.trim());
+                //Check if input is within range
                 if (selectedSIIndex > 0 && selectedSIIndex <= sortedSIList.size()) {
-                    chosenSI = sortedSIList.get(selectedSIIndex - 1);
+                    chosenSI = sortedSIList.get(selectedSIIndex - 1);//Save the instructor selected
                     validInput = true;
                 } else {
                     System.out.println("Please select a value from the available range.");
@@ -313,6 +318,8 @@ public class Menu {
         int selectedSSIndex;
         validInput = false;
         x = 1;
+        SwimStudent chosenSS = null; 
+        //Swimming students that are not on waiting list in ArrayList sorted alphabetically by name using TreeSet
         TreeSet<SwimStudent> sortedSS = new TreeSet<>(Comparator.comparing(SwimStudent::getName));
         sortedSS.addAll(ss);
         ArrayList<SwimStudent> sortedSSList = new ArrayList<>();
@@ -321,22 +328,25 @@ public class Menu {
                 sortedSSList.add(student);
             }
         });
-        SwimStudent chosenSS = null;
+        //Header for students basic information
         System.out.printf("%-34s%n", "==================================");
         System.out.printf("%-7s| %-12s| %-10s|%n", "", "Name", "Level");
         System.out.printf("%-34s%n", "----------------------------------");
+        //Display all the students basic information with an index
         for (SwimStudent student : sortedSSList) {
             System.out.printf("%-4d...| %-12s| %-10s|%n", x, student.getName(), student.getLevel());
             x++;
         }
         System.out.printf("%-34s%n", "==================================");
         do {
+            //Prompt user input to select a student using the index
             System.out.print("Input a number to select the student > ");
             try {
                 String input = sc.nextLine();
                 selectedSSIndex = Integer.parseInt(input.trim());
+                //Check if input is within range
                 if (selectedSSIndex > 0 && selectedSSIndex <= sortedSSList.size()) {
-                    chosenSS = sortedSSList.get(selectedSSIndex - 1);
+                    chosenSS = sortedSSList.get(selectedSSIndex - 1);//Save the student selected
                     validInput = true;
                 } else {
                     System.out.println("Please select a value from the available range.");
@@ -345,20 +355,20 @@ public class Menu {
                 System.out.println("Invalid input. Please enter an existent student.");
             }
         } while (!validInput);
-        //
-        if (chosenSS.getLevel() != LEnum.ADVANCE) {
-            chooseAward(chosenSI, chosenSS, sl, wl);
+        if (chosenSS.getLevel() != LEnum.ADVANCE) {//Distance award selection if student level is not advance
+            chooseAward(chosenSI, chosenSS, sl, wl);//Award qualification for Distance Swim
         } else {
             String dsORps;
             do {
+                // Prompt user input to specify the type of qualification for advance level students
                 System.out.print("Is the awarded qualification for Distance Swim or Personal Survival? (DS/PS) > ");
                 dsORps = sc.nextLine().trim().toUpperCase();
                 switch (dsORps) {
                     case "DS":
-                        chooseAward(chosenSI, chosenSS, sl, wl);
+                        chooseAward(chosenSI, chosenSS, sl, wl);//Award qualification for Distance Swim
                         break;
                     case "PS":
-                        chooseAward(chosenSI, chosenSS);
+                        chooseAward(chosenSI, chosenSS);//Award qualification for Personal Survival
                         break;
                     default:
                         System.out.println("Invalid input. Please enter 'DS' for Distance Swim or 'PS' for Personal Survival.");
@@ -368,7 +378,7 @@ public class Menu {
         }
     }
 
-    //
+    //Method to assign a lesson to a student and remove the student from the waiting list
     private void moveStudentFromWL(ArrayList<SwimStudent> ss, WaitingList wl, ArrayList<SwimLesson> sl) {
         Scanner sc = new Scanner(System.in);
         int selectedSSIndex;
@@ -379,7 +389,7 @@ public class Menu {
         System.out.printf("%-34s%n", "==================================");
         System.out.printf("%-7s| %-12s| %-10s|%n", "", "Name", "Level");
         System.out.printf("%-34s%n", "----------------------------------");
-        //Display all the students basic information with an index
+        //Display all the students in waiting list basic information with an index
         for (SwimStudent student : wl.getWS()) {
             System.out.printf("%-4d...| %-12s| %-10s|%n", x, student.getName(), student.getLevel());
             x++;
@@ -405,7 +415,7 @@ public class Menu {
         System.out.println(chosenSS);
         int lsSelectedIndex = 0;
         int y = 1;
-        //Swimming lessons list sorted by a string pattern and student level
+        //Swimming lessons ArrayList sorted by a string pattern and student level using a TreeSet
         TreeSet<SwimLesson> sortedSL = new TreeSet<>(Comparator.comparing(lesson -> lesson.toStringOptionList()));
         for (SwimLesson lesson : sl){
             if(lesson.getLevel() == chosenSS.getLevel()){
@@ -413,14 +423,17 @@ public class Menu {
             }
         }
         ArrayList<SwimLesson> sortedSLList = new ArrayList<>(sortedSL);
-        //Display all the lessons within the student level using basic information with an index
+        //Header for lessons basic information
+        System.out.printf("%-75s%n", "===========================================================================");
+        System.out.printf("%-7s| %-11s| %-10s| %-6s| %-10s| %-14s|%n", "", "Date", "Day", "Time", "Level", "Space(s) Available");
+        System.out.printf("%-75s%n", "---------------------------------------------------------------------------");
+        //Display all the lessons within the student level using basic information and availability with an index
         for (SwimLesson lesson : sortedSLList) {
-            System.out.printf("%-46s%n", "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-            System.out.printf("%-4d...%n", y);
-            System.out.print(lesson);
+            String spacesAvail = ""+(4 - lesson.getStudentsInLesson().size())+" space(s) available";
+            System.out.printf("%-4d...| %-11s| %-10s| %-6s| %-10s| %-14s|%n", y, lesson.getDate(), lesson.getDay(), lesson.getStart_time(), lesson.getLevel(), spacesAvail);
             y++;
         }
-        System.out.printf("%-46s%n", "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        System.out.printf("%-75s%n", "===========================================================================");
         do {
             //Prompt user input to select a lesson using the index
             System.out.print("Insert the lesson's index that the student would like to attend > ");
@@ -451,13 +464,10 @@ public class Menu {
                             }
                         } while (!yORn.equals("Y") && !yORn.equals("N"));
                     } else {
-                        //Add the student to the lesson
-                        sortedSLList.get(lsSelectedIndex - 1).addStudentsInLesson(chosenSS);
-                        //Assign the lesson to the student
-                        chosenSS.setUpcomingLesson(sortedSLList.get(lsSelectedIndex - 1));
-                        //Remove student from the waiting list and mark the student as removed
-                        chosenSS.setWaitingList(false);
-                        wl.removeFromWL(chosenSS);
+                        sortedSLList.get(lsSelectedIndex - 1).addStudentsInLesson(chosenSS);//Add the student to the lesson
+                        chosenSS.setUpcomingLesson(sortedSLList.get(lsSelectedIndex - 1));//Assign the lesson to the student
+                        chosenSS.setWaitingList(false);//Confirm the student is not on waiting list
+                        wl.removeFromWL(chosenSS);//Remove student from the waiting list
                         System.out.println("Student is now booked for this lesson and removed from the waiting list.");
                     }
                 } else {
@@ -470,29 +480,34 @@ public class Menu {
         } while (lsSelectedIndex < 1 || lsSelectedIndex > y);
     }
 
-    //
+    //Method to choose the distance qualification to award the student
     private void chooseAward(Instructor chosenSI, SwimStudent chosenSS, ArrayList<SwimLesson> sl, WaitingList wl) {
         Scanner sc = new Scanner(System.in);
         int selectedSDIndex;
         boolean validInput = false;
         int x = 1;
         DAEnum chosenDA = null;
+        //Header for distances to award
         System.out.printf("%-29s%n", "=============================");
         System.out.printf("%-7s| %-19s|%n", "", "Distances to Award");
         System.out.printf("%-29s%n", "-----------------------------");
+        //Check if student has missing qualifications on the student's current level
         if (!chosenSI.showMissingSD(chosenSS).isEmpty()) {
+            //Display all the qualifications not achieved by the student at the student's level
             for (DAEnum distance : chosenSI.showMissingSD(chosenSS)) {
                 System.out.printf("%-4d...| %-19s|%n", x, distance);
                 x++;
             }
             System.out.printf("%-29s%n", "=============================");
             do {
-                System.out.print("Select the award to be granted > ");
+                //Prompt user input to select a distance qualification to grant
+                System.out.print("Select the qualification to be granted > ");
                 try {
                     String input = sc.nextLine();
                     selectedSDIndex = Integer.parseInt(input.trim());
+                    //Check if the input is within range
                     if (selectedSDIndex > 0 && selectedSDIndex <= chosenSI.showMissingSD(chosenSS).size()) {
-                        chosenDA = chosenSI.showMissingSD(chosenSS).get(selectedSDIndex - 1);
+                        chosenDA = chosenSI.showMissingSD(chosenSS).get(selectedSDIndex - 1);//Save the chosen qualification to award
                         validInput = true;
                     } else {
                         System.out.println("Please select a value from the available range.");
@@ -501,63 +516,71 @@ public class Menu {
                     System.out.println("Invalid input. Please enter an available distance to award.");
                 }
             } while (!validInput);
+            //If the grant qualification method returns true, the qualification will be granted
             if (chosenSI.grantQualification(chosenSS, chosenDA)) {
                 SwimLesson lessonFound = null;
                 for (SwimLesson lesson : sl) {
-                    //Check if the lesson matches with the student level and that it is not full with other students
+                    //Finds a lesson that matches with the student level and that it is not full with other students
                     if (lesson.getLevel() == chosenSS.getLevel() && lesson.getStudentsInLesson().size() < lesson.getMaxStudents()) {
                         lessonFound = lesson;
                     }
                 }
+                //If lesson is found, assign and display lesson basic information
                 if (lessonFound != null) {
-                    lessonFound.addStudentsInLesson(chosenSS);
-                    chosenSS.setUpcomingLesson(lessonFound);
+                    lessonFound.addStudentsInLesson(chosenSS);//Add student to the lesson
+                    chosenSS.setUpcomingLesson(lessonFound);//Assign lesson as the upcoming lesson of that student
                     System.out.println("The next lesson for " + chosenSS.getName() + " will be: ");
                     System.out.printf("%-50s%n", "==============================================");
                     System.out.print(lessonFound.toStringOptionList());
                     System.out.printf("%-50s%n", "==============================================");
-                } else {
+                } else {//If lesson is not found, student will be added on the waiting list
                     chosenSS.setWaitingList(true);
                     wl.addToWL(chosenSS);
-                    System.out.println("There is no available lessons at the moment for this level. Swim student will be place on the waiting list.");
+                    System.out.println("This lesson is not available at the moment for this level. Swim student will be place on the waiting list.");
                 }
-            } else {
-                chosenSS.setWaitingList(true);
-                wl.addToWL(chosenSS);
-                chosenSS.setUpcomingLesson(null);
+            } else {//if function returns false, the student was promoted and still granted the qualification
+                chosenSS.setWaitingList(true);//Confirm the student is on waiting list
+                wl.addToWL(chosenSS);//Add student to waiting list
+                chosenSS.setUpcomingLesson(null);//Remove any upcoming lesson
                 System.out.println("The swim level of the student has increased to " + chosenSS.getLevel()
                         + ".\nStudent is now on the waiting list.");
             }
-        } else {
+        } else {//Display message if the advanced student has achieved all the distance swim qualification
             System.out.printf("| %-26s|%n", "No more awards to give");
             System.out.printf("%-29s%n", "=============================");
         }
     }
 
-    //
+    //Method to choose the personal survival qualification to award an advanced student
     private void chooseAward(Instructor chosenSI, SwimStudent chosenSS) {
         Scanner sc = new Scanner(System.in);
+        //Array of possible personal survival qualifications
         PSEnum[] psQ = {PSEnum.BRONZE, PSEnum.SILVER, PSEnum.GOLD};
         int selectedPSIndex;
         boolean validInput = false;
         int x = 1;
         PSEnum chosenPS = null;
+        //Header for survival medals to award
         System.out.printf("%-35s%n", "===================================");
         System.out.printf("%-7s| %-25s|%n", "", "Survival medal to Award");
         System.out.printf("%-35s%n", "-----------------------------------");
+        //Check if student has missing qualifications
         if (!chosenSI.findMissing(psQ, chosenSS).isEmpty()) {
+            //Display all the qualifications not achieved by the student
             for (PSEnum ps : chosenSI.findMissing(psQ, chosenSS)) {
                 System.out.printf("%-4d...| %-25s|%n", x, ps);
                 x++;
             }
             System.out.printf("%-35s%n", "===================================");
             do {
-                System.out.print("Select the award to be granted > ");
+                //Prompt user input to select a personal survival qualification to grant
+                System.out.print("Select the qualification to be granted > ");
                 try {
                     String input = sc.nextLine();
                     selectedPSIndex = Integer.parseInt(input.trim());
+                    //Check if the input is within range
                     if (selectedPSIndex > 0 && selectedPSIndex <= chosenSI.findMissing(psQ, chosenSS).size()) {
-                        chosenPS = chosenSI.findMissing(psQ, chosenSS).get(selectedPSIndex - 1);
+                        chosenPS = chosenSI.findMissing(psQ, chosenSS).get(selectedPSIndex - 1);//Save the chosen qualification
                         validInput = true;
                     } else {
                         System.out.println("Please select a value from the available range.");
@@ -566,10 +589,11 @@ public class Menu {
                     System.out.println("Invalid input. Please enter an available medal to award.");
                 }
             } while (!validInput);
+            //Create new personal survival qualification object
             PersonalSurvival newPSQ = new PersonalSurvival(chosenSI, chosenPS);
-            chosenSS.setPsQualification(newPSQ);
-        } else {
-            System.out.printf("| %-32s|%n", "No more survival medals to give");
+            chosenSS.setPsQualification(newPSQ);//Set the qualification as the student's qualification
+        } else {//Display message if the student has achieved the highest personal survival qualification
+            System.out.printf("| %-32s|%n", "Highest survival medal achieved");
             System.out.printf("%-35s%n", "===================================");
         }
     }

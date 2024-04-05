@@ -63,17 +63,12 @@ public class SwimLesson {
         return studentsInLesson;
     }
 
-    
     public LocalDate getDate() {
         return date;
     }
 
     public Instructor getInstructorAssigned() {
         return instructorAssigned;
-    }
-
-    public void setMaxStudents(int maxStudents) {
-        this.maxStudents = maxStudents;
     }
 
     public void addStudentsInLesson(SwimStudent ss) {
@@ -103,7 +98,7 @@ public class SwimLesson {
         sb.append(String.format("| %-11s| %-10s| %-6s| %-10s|%n", date, day, start_time, level));
         sb.append(String.format("%-46s%n","----------------------------------------------"));
         sb.append(String.format("| %-15s %26s |%n", "Instructor:", instructorAssigned.getName()));
-        if(!studentsInLesson.isEmpty()){
+        if(!studentsInLesson.isEmpty()){//Check if there are students in lesson
             sb.append(String.format("%-46s%n","----------------------------------------------"));
             sb.append(String.format("| %-25s %16s |%n", "Students for this class:", studentsInLesson.get(0).getName()));
             int maxLoop = studentsInLesson.size();
@@ -111,7 +106,7 @@ public class SwimLesson {
                 sb.append(String.format("| %-25s %16s |%n", "", studentsInLesson.get(i).getName()));
             }
         }
-        int x = maxStudents - studentsInLesson.size();
+        int x = maxStudents - studentsInLesson.size();//Calculates the available space in the lesson
         sb.append(String.format("%-46s%n","----------------------------------------------"));
         sb.append(String.format("| %-43s|%n", "There is " + x + " space(s) available"));
         sb.append(String.format("%-46s%n","=============================================="));

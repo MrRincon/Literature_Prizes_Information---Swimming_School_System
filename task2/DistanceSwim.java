@@ -15,7 +15,7 @@ public class DistanceSwim extends Qualification {
         this.distanceAchieved = da;
     }
     
-    //Getter method for the distance achieved 
+    //Getter method for the distance swim qualification 
     public DAEnum getDistance(){
         return this.distanceAchieved;
     }
