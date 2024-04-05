@@ -51,7 +51,7 @@ public class LoadMenu {
                 return true;
             case 0:
                 System.out.println("Exiting...");
-                return true;
+                System.exit(0);
             default:
                 return false;
         }
