@@ -33,19 +33,15 @@ public class LoadLesson {
 
     //Method to create SwimLesson objects for dummy data
     public void createDummy(LoadInstructor instructors) {
-        DOWEnum[] dow = {DOWEnum.MONDAY, DOWEnum.WEDNESDAY, DOWEnum.FRIDAY};
-        LEnum[] levels = {LEnum.NOVICE, LEnum.IMPROVER, LEnum.ADVANCE};
-        STEnum[] startTimes = {STEnum.T1700, STEnum.T1730, STEnum.T1800, STEnum.T1830, STEnum.T1900, STEnum.T1930};
         LocalDate currentd = LocalDate.now();//Get current date
         LocalDate endWeekOfDate = currentd.plusDays(30);//Add all the days for the weeks that are in the next 30 days
-
         //Loop for the days of the week, levels and start times to create the lessons
         while (currentd.isBefore(endWeekOfDate) || currentd.isEqual(endWeekOfDate)) {
-            for (DOWEnum dowI : dow) {
-                for (LEnum lI : levels) {
+            for (DOWEnum dowI : DOWEnum.values()) {
+                for (LEnum lI : LEnum.values()) {
                     //Select random Instructor to assign to the lesson of the day for an specific level
                     Instructor instObj = instructors.selectRandomInstructor();
-                    for (STEnum stI : startTimes) {
+                    for (STEnum stI : STEnum.values()) {
                         //Create a SwimLesson and add swim lesson to the Instructor schedule 
                         SwimLesson sl = new SwimLesson(dowI, stI, lI, currentd, instObj);
                         instObj.setSchedule(sl);

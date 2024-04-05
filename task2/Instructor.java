@@ -152,7 +152,7 @@ public class Instructor {
         }
     }
 
-    //Method to grant swim qualifications based on an specific distance
+    //Overload method to grant swim qualifications based on an specific distance
     public boolean grantQualification(SwimStudent ss, DAEnum sd) {
         boolean lookForNextLesson = true;
         DistanceSwim ds = new DistanceSwim(this, sd);

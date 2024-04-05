@@ -206,7 +206,7 @@ public class Menu {
             System.out.print("Enter the new student's name > ");
             newName = sc.nextLine();
             //Check for only alphabetic characters
-            if (newName.matches("[a-zA-Z]+")) {
+            if (newName.matches("[a-zA-Z ]+")) {
                 validName = true;
             } else {
                 System.out.println("Please enter an actual name");
